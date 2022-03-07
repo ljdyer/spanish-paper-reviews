@@ -1,0 +1,4 @@
+Raw score
+Rounded score (e.g. 2.99867 -> 2)
+Highlight informative features (top 100?) in shade of red/green
+Increase font size of text area
