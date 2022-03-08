@@ -8,33 +8,37 @@
 		<link href="/static/css/style.css" rel="stylesheet">
 		<link href="/static/css/tooltip.css" rel="stylesheet">
 		<script type="text/javascript" src="static/js/main.js"></script>
+		<!-- highlight-within-textarea CSS/JS -->
+		<link href="static/css/jquery.highlight-within-textarea.css" rel="stylesheet">
+		<script src="static/js/jquery.highlight-within-textarea.js"></script>
+		<!-- Custom styles for highlight-within-textarea -->
+		<link href="static/css/hwt-custom.css" rel="stylesheet">
 	</head>
 
 	<body>
-		<div style="text-align:center">
+		<div class="container">
 			<h1>Spanish Paper Reviews</h1>
 		</div>
-		<div style="text-align:center">
+		<div class="container">
 			<p id="page-info">Type some Spanish words into the text area below.</p>
 		</div>
-		<div style="text-align:center">
-			<table class="score-table">
-				<tr>
-					<td><span class="score" id="raw-score">0</span></td>
-					<td><span class="score" id="rounded-score">0</span></td>
-				</tr>
-				<tr>
-					<td><span>Raw score</span></td>
-					<td><span>Rounded</span></td>
-				</tr>
-			</table>
+		<div class="container">
+			<div class="score-display">
+				<span class="score" id="raw-score">0</span>
+				<br>
+				<span class="score-desc">Raw score</span>
+			</div>
+			<div class="score-display">
+				<span class="score" id="rounded-score">0</span>
+				<br>
+				<span class="score-desc">Rounded</span>
+			</div>
 		</div>
-		<div style="text-align:center">
-			<textarea style="height: 600px; max-width: 1000px; width: 100%" id="input-area"></textarea>
+		<div class="input-container extra-spacing">
+			<textarea class="hwt-input hwt-content" id="input-area"></textarea>
 		</div>
-		<div style="text-align:center">
-			<p>
-			</p>
+		<div class="container">
+			<a href="https://github.com/ljdyer/paper-reviews" target="_blank"><img src="static/img/github-logo.png"></img></a>
 		</div>
 	</body>
 </html>

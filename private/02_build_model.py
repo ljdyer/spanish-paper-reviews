@@ -40,7 +40,7 @@ def main():
                 for token in tokens if len(token) > 1]
 
     # Define model pipeline
-    bag_of_words_lr = make_pipeline(
+    bag_of_words_lr = make_pipeline(+
         CountVectorizer(binary=True),
         LinearRegression()
     )
