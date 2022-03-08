@@ -7,8 +7,8 @@ Show predicted evaluation scores for Spanish-language paper reviews entered
 into the text area by the user."""
 
 import pickle
-import pandas as pd
 
+import pandas as pd
 from flask import Flask, jsonify, render_template, request
 
 app = Flask(__name__)
@@ -18,17 +18,15 @@ bag_of_words_lr = pickle.load(open(MODEL_PATH, 'rb'))
 
 
 # ====================
-def round_score(raw_score: float) -> str:
-    """Round the raw model score to obtain a valid evaluation score
+def get_recommended_score(raw_score: float) -> str:
+    """Return the closest valid evaluation score to the raw model
+    prediction to get the recommended evluation score
 
     Valid evaluation scores are integers between -2 and 2"""
 
-    if raw_score > 2:
-        return '2'
-    elif raw_score < -2:
-        return '-2'
-    else:
-        return str(round(raw_score))
+    valid_scores = list(range(-2, 3))
+    distances = [abs(raw_score - v) for v in valid_scores]
+    return valid_scores[distances.index(min(distances))]
 
 
 # ====================
@@ -43,7 +41,7 @@ def index():
 @app.route('/get_features', methods=['POST'])
 def get_features():
     """Return lists of model features (words) with names of color classes
-    to configure text area highlighting."""
+    used to configure text area highlighting."""
 
     classes_and_features = {}
     feature_df = pd.read_csv('model/features.csv')
@@ -69,14 +67,15 @@ def get_features():
 # ====================
 @app.route('/get_scores', methods=['POST'])
 def get_proba():
-    """Return raw and rounded model score in response to
+    """Return raw and recommended model score in response to
     request containing text input by the user"""
 
     input_text = request.data
+    input_text = input_text.decode('utf-8')
     raw_score = bag_of_words_lr.predict([str(input_text)])[0]
     return jsonify({
         'raw_score': f'{raw_score:.2f}',
-        'rounded_score': round_score(raw_score)
+        'recommended_score': get_recommended_score(raw_score)
     })
 
 

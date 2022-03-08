@@ -22,27 +22,27 @@ function getScores(inputText) {
     fetch('/get_scores', { method: "POST", body: inputText }).then(response => response.text().then(json_response => {
         response = JSON.parse(json_response);
         $('#raw-score').text(response['raw_score'])
-        $('#rounded-score').text(response['rounded_score'])
+        $('#recommended-score').text(response['recommended_score'])
         updateScoreColor()
     }));
 }
 
 function updateScoreColor() {
-    roundedScoreSpan = $('#rounded-score')
-    let rScore = parseInt(roundedScoreSpan.text())
-    roundedScoreSpan.removeClass('red light-red light-green green')
+    recommendedScoreSpan = $('#recommended-score')
+    let rScore = parseInt(recommendedScoreSpan.text())
+    recommendedScoreSpan.removeClass('red light-red light-green green')
     switch (rScore) {
         case -2:
-            roundedScoreSpan.addClass('red')
+            recommendedScoreSpan.addClass('red')
             break;
         case -1:
-            roundedScoreSpan.addClass('light-red')
+            recommendedScoreSpan.addClass('light-red')
             break;
         case 1:
-            roundedScoreSpan.addClass('light-green')
+            recommendedScoreSpan.addClass('light-green')
             break;
         case 2:
-            roundedScoreSpan.addClass('green')
+            recommendedScoreSpan.addClass('green')
             break;
     }
 }

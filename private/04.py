@@ -13,6 +13,8 @@ import pickle
 MODEL_PATH = "model/bag_of_words_lr.pickle"
 FEATURE_LIST_PATH = "model/features.csv"
 
+x = "Me parece un trabajo interesante, con énfasis en cubrir brechas prácticas. Su contenido y estructura están técnicamente bien presentados. Sin embargo, por otro lado, no existe una distinción clara entre los trabajos previos y la propuesta original de este trabajo. El artículo expone que existen trabajos previos respecto a este maridaje CMMI-ÄGIL pero no indica si estas propuestas son suficientes o insuficientes para la mejora. Es decir, la motivación o justificación de este trabajo no está explícita."
+
 
 # ====================
 def save_barplot(data: pd.DataFrame, color: str, title: str, save_path: str,
@@ -43,32 +45,17 @@ def main():
     # Unpickle model
     bag_of_words_lr = pickle.load(open(MODEL_PATH, 'rb'))
 
-    # Get lists of features and coefficients and store as a pandas
-    # dataframe
-    feature_names = (bag_of_words_lr.named_steps['countvectorizer']
-                     .get_feature_names_out())
-    coefficients = bag_of_words_lr.named_steps['linearregression'].coef_
-    most_informative = pd.DataFrame(zip(feature_names, coefficients),
-                                    columns=['Feature', 'Coefficient'])
-    most_informative = most_informative.sort_values('Coefficient',
-                                                    ascending=False)
+    # Load csv
+    reviews = pd.read_csv('data/reviews_es.csv')
 
-    top_10_positive = most_informative.head(10)
-    top_10_negative = most_informative.tail(10)[::-1]
+    for row in reviews.iterrows():
+        print(bag_of_words_lr.predict([row[1]['Review']]))
 
-    # Save barplots of positive and negative features
-    save_barplot(data=top_10_positive, color='green',
-                 title="Top 10 positive features",
-                 save_path='graphs/top_10_positive.png',
-                 x_box_start=0.06)
-    save_barplot(data=top_10_negative, color='red',
-                 title="Top 10 negative features",
-                 save_path='graphs/top_10_negative.png',
-                 x_box_start=0.05, negative_coefs=True)
+    features = pd.read_csv('model/features.csv')
 
-    # Save list of features and coefficients to csv
-    most_informative.to_csv(FEATURE_LIST_PATH, index=False)
-    print(f'Features and coefficients saved to {FEATURE_LIST_PATH}')
+    print(list(reversed(list(features.tail(10)['Feature']))))
+
+    print(bag_of_words_lr.predict([x]))
 
 
 # ====================
