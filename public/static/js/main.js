@@ -11,7 +11,10 @@ function generateOptions(){
         response = JSON.parse(json_response);
         for (const [colorClass, words] of Object.entries(response)) {
             highlightOptions.push({
-                highlight: RegExp(`\\b(${words.join('|')})\\b`, "gm"),
+                // Explicit definition of word characters used with negative lookahead and lookbehind because
+                // JavaScript's implementation of Regex does not recognise accented characters as word characters
+                // https://stackoverflow.com/questions/2449779/why-cant-i-use-accented-characters-next-to-a-word-boundary
+                highlight: RegExp(`(?<![A-Za-zÀ-ÖØ-öø-ÿ])(${words.join('|')})(?![A-Za-zÀ-ÖØ-öø-ÿ])`, "gmiu"),
                 className: colorClass
             })
         }

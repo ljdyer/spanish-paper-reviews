@@ -53,9 +53,10 @@ def get_features():
         class_name = f'green{i}'
         if features:
             classes_and_features[class_name] = features
+    # Negative features (red highlight)
     for i in range(1, 9):
-        these_features = feature_df.loc[(feature_df['Coefficient'] > (-i-1)/10)
-                                        & (feature_df['Coefficient'] < -i/10)]
+        these_features = feature_df.loc[(feature_df['Coefficient'] < -(i-1)/10)
+                                        & (feature_df['Coefficient'] > -i/10)]
         features = these_features['Feature'].tolist()
         class_name = f'red{i}'
         if features:

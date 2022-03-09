@@ -6,6 +6,7 @@ features (words) for the trained linear regression model.
 """
 
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pickle
@@ -56,6 +57,8 @@ def main():
     print(list(reversed(list(features.tail(10)['Feature']))))
 
     print(bag_of_words_lr.predict([x]))
+
+    print(np.mean(reviews['Evaluation']))
 
 
 # ====================
