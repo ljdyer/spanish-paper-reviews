@@ -59,6 +59,7 @@ def main():
     print(bag_of_words_lr.predict([x]))
 
     print(np.mean(reviews['Evaluation']))
+    print(sorted(list(reviews['Review']), key=len)[:10])
 
 
 # ====================
